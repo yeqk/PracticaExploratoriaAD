@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% if edit == True %}
+        <h3>My Images:</h3>
+        <hr>
+    {% endif %}
+
+    {% if edit == False%}
+        <h3>Images:</h3>
+        <hr>
+    {% endif %}
+
+    {% for img in images %}
+        <img src={{ img.image_url }} alt={{ img.image_url }} > <br>
+        {% if edit == True %}
+            <form action={{ url_for('remove_img') }} method="post">
+                <input type="hidden" value={{ img.id }} name="img_id"/>
+                <input type="hidden" value={{ ad_id }} name="adv_id"/>
+                <input type="submit" value="Remove" />
+            </form>
+        {% endif %}
+        <hr>
+    {% endfor %}
+    <br>
+
+    {% if edit == True %}
+        <a href={{ url_for('myads') }}>Back</a>
+    {% endif %}
+
+    {% if edit == False%}
+        <a href={{ url_for('home') }}>Back</a>
+    {% endif %}
+{% endblock %}

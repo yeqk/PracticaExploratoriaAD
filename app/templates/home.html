@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content%}
+
+     <form action={{ url_for('search') }} method="post" novalidate>
+        {{ form.hidden_tag() }}
+        {{ form.search_field(size = 32) }} {{ form.submit() }}
+        {% for error in form.search_field.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </form>
+
+    <h3>Most recent Ads:</h3>
+    {% for idx,ad in ads %} {# bucle per llistar tots els ads #}
+        <hr>
+        <div>
+            <p>
+                <b>Title:</b> {{ ad.title }} <b>Price:</b> {{ prices[idx] }} € <br>
+                <b>Category:</b> {{ ad.category }} <br>
+                <b>Description:</b> {{ ad.description }} <br>
+                <b>Published by:</b> {{ ad.author.username }} <b>at:</b> {{ ad.timestamp.strftime('%d/%m/%Y - %H:%M:%S') }}
+                <form action={{ url_for('view_imgs') }} method="post" novalidate>
+                    <input type="hidden" value={{ ad.id }} name="id"/>
+                    <input type="submit" value="View Images" />
+                </form>
+            </p>
+        </div>
+    {% endfor %}
+{% endblock %}

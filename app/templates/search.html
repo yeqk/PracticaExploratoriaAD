@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content%}
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+        {{ form.search_field(size = 32) }} {{ form.submit() }}
+        </p>
+        <p>
+        {{ form.price_min.label }}: {{ form.price_min(size=16) }}
+        {% for error in form.price_min.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+        {{ form.price_max.label }}: {{ form.price_max(size=16) }}
+        {% for error in form.price_max.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+        </p>
+        <p>
+        {{ form.category.label }}: {{ form.category }}
+        {% for error in form.category.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        {% for error in form.search_field.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </form>
+
+    <h3>Results:</h3>
+    {% for idx,ad in ads %} {# bucle per llistar tots els ads #}
+        <hr>
+        <div>
+            <p>
+                Title: {{ ad.title }} Price:{{ prices[idx] }}  <br>
+                Category: {{ ad.category }} <br>
+                Description: {{ ad.description }} <br>
+                Published by: {{ ad.author.username }} at: {{ ad.timestamp.strftime('%d/%m/%Y - %H:%M:%S') }}
+                <form action={{ url_for('view_imgs') }} method="post" novalidate>
+                    <input type="hidden" value={{ ad.id }} name="id"/>
+                    <input type="submit" value="View Images" />
+                </form>
+            </p>
+        </div>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content%}
+
+    <h3>My Ads:</h3>
+    {% for idx,ad in ads %} {# bucle per llistar tots els ads #}
+        <hr>
+        <div>
+            <p>
+                <b>Title:</b> {{ ad.title }} <b>Price:</b>{{ prices[idx] }} € <br>
+                <b>Category:</b> {{ ad.category }} <br>
+                <b>Description:</b> {{ ad.description }} <br>
+                <b>Published by:</b> {{ ad.author.username }} <b>at:</b> {{ ad.timestamp.strftime('%d/%m/%Y - %H:%M:%S') }}
+
+                <form action={{ url_for('edit_ad') }} method="post">
+                    <input type="hidden" value={{ ad.id }} name="id"/>
+                    <input type="submit" value="Edit Ad" />
+                </form>
+
+                <form action={{ url_for('edit_imgs') }} method="post">
+                    <input type="hidden" value={{ ad.id }} name="id"/>
+                    <input type="submit" value="Edit Images" />
+                </form>
+
+                <br>
+                <form action={{ url_for('remove_imgs') }} method="post">
+                    <input type="hidden" value={{ ad.id }} name="id"/>
+                    <input type="submit" value="Remove All Images" />
+                </form>
+
+                <br>
+                <form action={{ url_for('remove_ad') }} method="post">
+                    <input type="hidden" value={{ ad.id }} name="id"/>
+                    <input type="submit" value="Remove" />
+                </form>
+
+            </p>
+        </div>
+    {% endfor %}
+{% endblock %}
